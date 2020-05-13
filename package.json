@@ -1,0 +1,14 @@
+{
+  "name": "aidinosaur",
+  "version": "1.0.0",
+  "description": "An simple AI algorith to learn and play chrome dinosaur game ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LizzardMedeiros",
+  "license": "MIT",
+  "dependencies": {
+    "robotjs": "^0.6.0"
+  }
+}
