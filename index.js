@@ -1,13 +1,10 @@
-const robot = require("robotjs");
-let neuron = require("./Neuron.js");
+const neuron = require("./Neuron.js");
+const dinosaur = require("./Dinosaur");
 
 //Configurations
 let configs = {
   steps : 20,
-  dino_color_night : "acacac",
-  fps : 24,
-  screenSize : robot.getScreenSize(),
-  screenGame : robot.screen.capture(0, 100, this.screenSize.width, 500)
+  fps : 16
 };
 
 //Cria um neurônio
@@ -16,10 +13,13 @@ neuron.generate(1);
 //Loop
 let loop = {};
 let run = () => {
-  let is_gameover = screenGame.colorAt(800, 360) === configs.dino_color_night;
-
-  if(is_gameover) robot.keyTap("enter");
+  let distance = dinosaur.getObstacleDistance();
+  if(dinosaur.checkGameOver()){
+    dinosaur.move(0);
+  }
+  else if(distance > 30 && distance < 900){
+    dinosaur.move(0);
+  }
   loop = setTimeout(run, 1000/configs.fps);
 }
-
 run();
