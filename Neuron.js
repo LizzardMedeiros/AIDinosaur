@@ -20,7 +20,7 @@ let Neuron = {
       //Atribui o peso à cada sinal
       for(let i=0; i<sign_array.length; i++){
         if(i == this.weight.length) break;
-        u += sign_array[i] * this.weight[i];
+        u += tgh(sign_array[i]) * this.weight[i];
       }
       //Somatória dos sinais - bias
       u -= this.bias;
@@ -50,6 +50,10 @@ let Neuron = {
       trigger : this.trigger
     }
   }
+}
+
+function tgh(number){
+  return (1 - 2/Math.pow(Math.E, number) + 1);
 }
 
 function randomRange(min, max){
