@@ -20,11 +20,8 @@ let Dinosaur = {
     return -1;
   },
 
-  getGameSpeed : function () {
-
-  },
-
   move : function(type){
+    robot.setKeyboardDelay(100);
     switch(type){
       case 0: //jump or start
         robot.keyTap("space");
