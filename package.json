@@ -4,6 +4,7 @@
   "description": "An simple AI algorith to learn and play chrome dinosaur game ",
   "main": "index.js",
   "scripts": {
+    "start" : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "LizzardMedeiros",
