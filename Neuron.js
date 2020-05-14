@@ -10,8 +10,8 @@ function Neuron(){
     for(let i=0; i<size; i++){
       this.weight.push(randomRange(-1, 1));
     }
-    this.bias = Math.random()*10;
-    this.trigger = Math.random()*10;
+    this.bias = Math.random()*3;
+    this.trigger = Math.random()*8;
   };
 
   //Função de ativação
