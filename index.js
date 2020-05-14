@@ -3,8 +3,9 @@ const dinosaur = require("./Dinosaur");
 
 //Configurations
 let configs = {
-  dinos : 5,
-  fps : 16
+  dinos : 10,
+  fps : 16,
+  first_obstacle : 7
 };
 
 let current_generation = 0;
@@ -21,10 +22,10 @@ for(let i=0; i<configs.dinos; i++){
 //Setup
 let setup = {};
 let runSetup = () => {
+
   //Verifica se está na tela do jogo
   if(dinosaur.checkGameScreen() && dinosaur.checkGameOver()){
     runLoop();
-    timer();
     return;
   }
   clearTimeout(setup);
@@ -37,30 +38,34 @@ let runLoop = () => {
 
   if(current_generation == configs.dinos){
     clearTimeout(loop);
-    clearTimeout(timer);
     createNewGeneration();
     return;
-  } else if (dinosaur.checkGameOver() && room_speed > 3){
+  } else if (dinosaur.checkGameOver() && room_speed > 0){
 
-    dinosaur.move(0);//começa o jogo
     dinoAI[current_generation].score = room_speed;
     room_speed = 0;
+
     current_generation++;
 
-  } else if (!dinosaur.checkGameOver()){
+    dinosaur.move(0);//começa o jogo
+    loop = setTimeout(runLoop, 1000);
+
+  } else {
+    //Contagem de tempo
+    room_speed++;
 
     //Verifica se existe obstáculo
     let distance = dinosaur.getObstacleDistance();
     if(distance != -1){
 
       /*
-      * Verifica o sinal do neurônio e executa uma ação
-      * Como a distância representa números muito grandes e a velocidade número muito pequeno
-      * decidi modular os valores da distância dividindo por 10
+      ** Verifica o sinal do neurônio e executa uma ação
+      ** Como a distância representa números muito grandes e a velocidade número muito pequeno
+      ** decidi modular os valores da distância dividindo por 100
       */
       
       let signals = [ 
-        distance*.65, //Distância
+        1000/distance, //Distância
         room_speed //Velocidade
       ];
 
@@ -69,52 +74,51 @@ let runLoop = () => {
       else if (signals == -1) dinosaur.move(1);//abaixa
 
     }
-
+    loop = setTimeout(runLoop, 1000/configs.fps);
   }
-  loop = setTimeout(runLoop, 1000/configs.fps);
 }
 
 //New Generation
 let createNewGeneration = () => {
-  let best_neuron = new neuron();
-  let best_id = -1;
+  let best_neuron_data = {
+      id : -1,
+      weight : [],
+      bias : 0,
+      trigger : 0,
+      score : 0
+  };
 
   //Pega o melhor da última geração
   for(let i=0; i<dinoAI.length; i++){
-    if(best_neuron.score < dinoAI[i].score && dinoAI[i].score > 6){
-      best_id = i;
-      best_neuron.weight = dinoAI[i].weight;
-      best_neuron.bias = dinoAI[i].bias;
-      best_neuron.trigger = dinoAI[i].trigger;
-      best_neuron.score = dinoAI[i].score;
+    if(best_neuron_data.score < dinoAI[i].score && dinoAI[i].score > configs.first_obstacle){
+      best_neuron_data.id = i;
+      best_neuron_data.weight = dinoAI[i].weight;
+      best_neuron_data.bias = dinoAI[i].bias;
+      best_neuron_data.trigger = dinoAI[i].trigger;
+      best_neuron_data.score = dinoAI[i].score;
     }
   }
 
   //Verifica se nenhum dinossauro teve sucesso, caso positivo, gera novos pesos aleatórios
-  if(best_id == -1){
-    console.log("Nenhum aprovado... Gerando novos");
+  if(best_neuron_data.id == -1){
+    console.log("Atribuindo nova geração aleatória");
+    dinoAI = [];
     for(let i=0; i<configs.dinos; i++){
       dinoAI[i] = new neuron();
       dinoAI[i].generate(2);
     }    
-  } else //Senão substitui a geração por clones do melhor da última geração e gera alguma mutação nos descendentes
-  for(let i=0; i<dinoAI.length; i++){
-    dinoAI[i].weight = best_neuron.weight;
-    dinoAI[i].bias = best_neuron.bias;
-    dinoAI[i].trigger = best_neuron.trigger;
-    dinoAI[i].score = best_neuron.score;
-    //provoca mutação em todos, menos no primeiro
-    if(i>0) dinoAI[i].mutation();
+  } else {//Senão substitui a geração por clones do melhor da última geração e gera alguma mutação nos descendentes
+    console.log("Nova geração filha de dino", best_neuron_data.id);
+    for(let i=0; i<dinoAI.length; i++){
+      dinoAI[i].weight = best_neuron_data.weight;
+      dinoAI[i].bias = best_neuron_data.bias;
+      dinoAI[i].trigger = best_neuron_data.trigger;
+      //provoca mutação em todos, menos no primeiro
+      if(i>0) dinoAI[i].mutation();
+    }
   }
   current_generation = 0;
   runSetup();
 }
-
-//Room Speed
-let timer = () => {
-  room_speed++;
-  clearTimeout(timer);
-  setTimeout(timer, 1000);
-};
 
 runSetup();

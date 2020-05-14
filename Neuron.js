@@ -10,8 +10,8 @@ function Neuron(){
     for(let i=0; i<size; i++){
       this.weight.push(randomRange(-1, 1));
     }
-    this.bias = randomRange(0, 100);
-    this.trigger = Math.random();
+    this.bias = Math.random()*10;
+    this.trigger = Math.random()*10;
   };
 
   //Função de ativação
@@ -34,12 +34,12 @@ function Neuron(){
   this.mutation = () => {
     //Pesos
     for(let k=0; k<this.weight.length; k++){
-      if(Math.random() <= .2) this.weight[k] += randomRange(-1, 1);
+      if(Math.random() <= .2) this.weight[k] += randomRange(-1, 1) * 0.001;
     }
     //Bias
-    if(Math.random() <= .2) this.bias += randomRange(-1, 1);
+    if(Math.random() <= .2) this.bias += randomRange(-1, 1) * 0.1;
     //Trigger
-    if(Math.random() <= .2) this.trigger += randomRange(-1, 1);
+    if(Math.random() <= .2) this.trigger += randomRange(-1, 1) * 0.1;
   };
 }
 
