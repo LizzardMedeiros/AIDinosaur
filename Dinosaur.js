@@ -39,10 +39,7 @@ let Dinosaur = {
   },
 
   checkGameScreen : function () {
-    //let p1 = robot.getPixelColor(1175, 260) === this.dino_color_night;
-    let p2 = robot.getPixelColor(0, 120) === "202124";
-    //console.log(p1, p2);
-    return (p2);
+    return (robot.getPixelColor(0, 120) === "202124")
   }
 }
 

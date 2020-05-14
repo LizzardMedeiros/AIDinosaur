@@ -1,6 +1,6 @@
 # AIDinosaur
 
-A simple exemple of AI inteligence for beginners students
+A simple AI experiment for JS beginners students
 
 ## Dependences
 
