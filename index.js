@@ -1,5 +1,5 @@
-let neuron = require("./Neuron.js");
-const dinosaur = require("./Dinosaur");
+let neuron = require("./src/neuron");
+const machine = require("./src/machine");
 const config = require("./configs/config.json");
 const best_dna = require("./genetics/best.json");
 const fs = require('fs');
@@ -28,13 +28,13 @@ createDino();
 //Loop
 let loop = {};
 let runLoop = () => {
-  if(!dinosaur.checkGameScreen()) {
-    console.log("Waiting Dinosaur Game...");
+  if(!machine.checkGameScreen()) {
+    console.log("Waiting machine Game...");
     loop = setTimeout(runLoop, 1000);
     return;
-  } else if(dinosaur.checkGameOver()) {
+  } else if(machine.checkGameOver()) {
     if(room_speed > 0){
-      dinosaur.move("leave");
+      machine.move("leave");
       dinoAI[current_dino].data.score = room_speed;
       if(room_speed > config.first_obstacle){
         if(bestDino == -1) bestDino = current_dino;
@@ -49,18 +49,18 @@ let runLoop = () => {
       return;
     }
     room_speed = 0;
-    dinosaur.move("start");
+    machine.move("start");
     loop = setTimeout(runLoop, 1000);
     return;
   } else {
     room_speed++;
-    let distance = dinosaur.getObstacleDistance();
+    let distance = machine.getObstacleDistance();
     if(distance != -1){
-      let signals = [Math.floor(dinosaur.screenSize.width/distance), Math.floor(10/room_speed)];
+      let signals = [Math.floor(machine.screenSize.width/distance), Math.floor(10/room_speed)];
       signals = dinoAI[current_dino].g(signals);
-      if(signals == 1) dinosaur.move("jump"); //pula
-      else if (signals == -1) dinosaur.move("crouch"); //abaixa
-      else dinosaur.move("leave");
+      if(signals == 1) machine.move("jump"); //pula
+      else if (signals == -1) machine.move("crouch"); //abaixa
+      else machine.move("leave");
     }
     loop = setTimeout(runLoop, 1000/config.fps);   
   }

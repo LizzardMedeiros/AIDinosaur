@@ -1,4 +1,4 @@
-function Neuron(){
+module.exports = function () {
   //Data
   this.data = {
     weight : [],
@@ -49,5 +49,3 @@ function Neuron(){
 function randomRange(min, max){
   return Math.random() * (max - min) + min;
 }
-
-module.exports = Neuron;
