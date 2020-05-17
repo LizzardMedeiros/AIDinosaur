@@ -1,12 +1,12 @@
 const robot = require("robotjs");
 
-let Dinosaur = {
+module.exports = {
 
   eye_height : 65,
   position: {x:165, y:475},
   dino_color_night : "acacac",
   screenSize : robot.getScreenSize(),
-  steps : 16,
+  steps : 32,
 
   getObstacleDistance : function () {
     let grid = Math.floor(this.screenSize.width / this.steps) - Math.floor(this.position.x / this.steps);
@@ -21,13 +21,24 @@ let Dinosaur = {
   },
 
   move : function(type){
-    robot.setKeyboardDelay(100);
     switch(type){
-      case 0: //jump or start
+      case "jump":
+        robot.keyToggle("down", "up");
+        robot.keyToggle("space", "down");
+        //robot.keyTap("space");
+        break;
+      case "crouch":
+        robot.keyToggle("space", "up");
+        robot.keyToggle("down", "down");
+        //robot.keyTap("down");
+        break;
+      case "start":
         robot.keyTap("space");
         break;
-      case 1: //Crouch
-        robot.keyTap("down");
+      default:
+        robot.keyToggle("space", "up");
+        robot.keyToggle("down", "up");
+        break;
     }
   },
 
@@ -39,5 +50,3 @@ let Dinosaur = {
     return (robot.getPixelColor(0, 120) === "202124")
   }
 }
-
-module.exports = Dinosaur;
