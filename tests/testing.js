@@ -1,8 +1,8 @@
-let rna = require("./src/rna");
-let best_dna = require("./genetics/best.json");
+let rna = require("../src/rna");
+let best_dna = require("../genetics/best.json");
 
-const machine = require("./src/machine");
-const config = require("./configs/config.json");
+const machine = require("../src/machine");
+const config = require("../configs/config.json");
 const fs = require('fs');
 
 //Define as variáveis gerais

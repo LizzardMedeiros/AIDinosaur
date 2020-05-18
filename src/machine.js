@@ -1,21 +1,18 @@
 const robot = require("robotjs");
+const config = require("../configs/config.json")
 
 module.exports = {
 
-  eye_height : 65,
-  position: {x:165, y:475},
-  dino_color_night : "acacac",
   screenSize : robot.getScreenSize(),
-  steps : 32,
 
   getObstacleDistance : function () {
-    let grid = Math.floor(this.screenSize.width / this.steps) - Math.floor(this.position.x / this.steps);
+    let grid = Math.floor(this.screenSize.width / config.steps) - Math.floor(config.dino_position.x / config.steps);
     for(let i=1; i<grid; i++){
-      let xx = (i * this.steps) + this.position.x;
-      let yy = this.position.y + this.eye_height;
+      let xx = (i * config.steps) + config.dino_position.x;
+      let yy = config.dino_position.y + config.cactus_height;
       let color = robot.getPixelColor(xx, yy);
 
-      if(color === this.dino_color_night) return xx;
+      if(color === config.dino_color_day) return xx;
     }
     return -1;
   },
@@ -43,7 +40,7 @@ module.exports = {
   },
 
   checkGameOver : function () {
-    return robot.getPixelColor(740, 340) === this.dino_color_night;
+    return robot.getPixelColor(740, 340) === config.dino_color_day;
   },
 
   checkGameScreen : function () {

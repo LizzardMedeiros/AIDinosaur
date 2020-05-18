@@ -1,5 +1,10 @@
 {
   "dinos" : 10,
   "fps" : 16,
-  "first_obstacle" : 6
+  "min_score" : 9,
+  "cactus_height" : 65,
+  "dino_position": {"x":165, "y":475},
+  "dino_color_day" : "acacac",
+  "dino_color_night" : "acacac",
+  "steps" : 32
 }
