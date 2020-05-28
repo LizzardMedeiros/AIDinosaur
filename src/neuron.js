@@ -2,15 +2,17 @@ module.exports = function () {
   //Data
   this.data = {
     weight : [],
-    trigger : 0
+    trigger : 0,
+    sensibility : 1
   }
 
   //Cria um neuronio vazio
-  this.generate = (size = 1) => {
+  this.generate = (size = 1, sensibility = 1) => {
+    this.data.sensibility = sensibility;
     for(let i=0; i<size; i++){
-      this.data.weight[i] = randomRange(-10, 10);
+      this.data.weight[i] = randomRange(-sensibility, sensibility);
     }
-    this.data.trigger = Math.random()*10;
+    this.data.trigger = Math.random();
   };
 
   //Função de ativação
@@ -33,10 +35,8 @@ module.exports = function () {
   this.mutation = () => {
     //Pesos
     for(let k=0; k<this.data.weight.length; k++){
-      if(Math.random() <= .8) this.data.weight[k] += randomRange(-10, 10);
+      if(Math.random() <= .8) this.data.weight[k] += randomRange(-.1, .1)*this.data.sensibility;
     }
-    //Trigger
-    if(Math.random() <= .8) this.data.trigger += randomRange(-1, 1)*.01;
   };
 }
 

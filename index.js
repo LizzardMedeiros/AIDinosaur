@@ -80,7 +80,7 @@ let createNewGeneration = () => {
     if(dinoAI[best_dino_id].score > scr){
       console.log("New record reached!", dinoAI[best_dino_id].score);
       dt = {score:dinoAI[best_dino_id].score, gen:gen};
-      fs.writeFile("../genetics/best.json", JSON.stringify(dt), e => {if(e)console.error(e)});
+      fs.writeFile("./genetics/best.json", JSON.stringify(dt), e => {if(e)console.error(e)});
     }
 
     dinoAI.forEach(dino => {
