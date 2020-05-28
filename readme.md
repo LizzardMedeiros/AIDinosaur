@@ -11,7 +11,7 @@ A simple AI experiment for JS beginners students
 * Just run - npm update
 
 ## Run
-* First, configure the dinosaur color and position in "Dinosaur.js"
+* First, configure our AI basic attributes in "configs/config.json"
 * Open your Chrome browser and enter chrome://dino
 * Set your browser as fullscreen
 * Run the AI - npm start
