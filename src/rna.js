@@ -9,11 +9,12 @@ module.exports = function () {
 
   this.createRNA = function (inputs, depth, height, outputs) {
     this.configs = [inputs, depth, height, outputs];
-    for(i=0; i<depth; i++){
+    for (i=0; i<depth; i++) {
       this.neuron_array[i] = [];
-      for(j=0; j<height; j++){
+      for (j=0; j<height; j++) {
         this.neuron_array[i][j] = new neuron();
-        this.neuron_array[i][j].generate(i==0 ? inputs : depth);
+        if (i==0) this.neuron_array[i][j].generate(inputs);
+        else this.neuron_array[i][j].generate(depth);
       }
     }
 
